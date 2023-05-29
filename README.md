@@ -6,6 +6,31 @@ Repository for Concept Research of LDD(LMM Driven Development)
 
 Code Repository for Researching the Concept of "Future Programming" Discussed in Paul Graham's Book, "Hackers and Painters"
 
+## Commands
+
+1. Install python packages
+
+    ``` shell
+    % pip install -r requirements.txt
+    # or
+    % poetry install
+    ```
+
+2. Setup marvin with openai api key
+
+    ``` shell
+    % marvin setup-openai
+    # And type your openai api key
+    ```
+
+    -> You can check if it has been properly configured by running `app/utils.py` file.
+
+3. Run api
+
+    ```shell
+    % uvicorn app.main:app --reload
+    ```
+
 ## Packages
 
 1. <https://platform.openai.com/docs/api-reference/authentication?lang=python>
