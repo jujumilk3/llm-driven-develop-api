@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "llm-driven-development-api"
+version = "0.1.0"
+description = ""
+authors = ["jujumilk3 <jujumilk3@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.95.2"
+openai = "^0.27.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
