@@ -15,6 +15,7 @@ Code Repository for Researching the Concept of "Future Programming" Discussed in
     # or
     % poetry install
     ```
+    ※ marvin is a huge package, so it takes a long time to install.
 
 2. Setup marvin with openai api key
 
