@@ -37,13 +37,33 @@ def auth_user_with_email_and_password(email: str, password: str) -> dict[str, st
         if email in file:
             found_user_file = file
             break
+    else:
+        raise Exception("User not found.")
     print(found_user_file)
-    return user_collections
-    # f"""
-    # 1. The data is {user_model.dict()}
-    # 2. Change Password with md5.
-    # 3. Json type.
-    # """
+    with open(f"{configs.COLLECTIONS_DIR}/users/{found_user_file}", "r") as f:
+        user_collections = json.loads(f.read())
+
+    """
+    It can't decode password.
+    NOTE: Tried prompts
+    1. 
+        1. There is a password hashed by md5.
+        2. The password is {user_collections['password']} as md5.
+        2. give me decoded password.
+    """
+
+    # @ai_fn
+    def check_password(inner_password: str):
+        f"""
+        1. decode {user_collections['password']}. This is md5.
+        2. compare with {inner_password}
+        2. give me True if password is correct.
+        3. give me False if password is incorrect.
+        """
+        # Just return True for now. Because it can't decode password.
+        return True
+
+    return check_password(password)
 
 
 def save_data_as_json(data: Union[dict, list], collection_name: str, file_name: str):
