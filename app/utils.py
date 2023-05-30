@@ -29,6 +29,23 @@ def create_user(user_model: UserModel) -> dict[str, str]:
     """
 
 
+# @ai_fn
+def auth_user_with_email_and_password(email: str, password: str) -> dict[str, str]:
+    user_collections = os.listdir(f"{configs.COLLECTIONS_DIR}/users")
+    found_user_file = None
+    for file in user_collections:
+        if email in file:
+            found_user_file = file
+            break
+    print(found_user_file)
+    return user_collections
+    # f"""
+    # 1. The data is {user_model.dict()}
+    # 2. Change Password with md5.
+    # 3. Json type.
+    # """
+
+
 def save_data_as_json(data: Union[dict, list], collection_name: str, file_name: str):
     # create dir if not exists
     target_dir: str = f"{configs.COLLECTIONS_DIR}/{collection_name}/"
@@ -40,19 +57,21 @@ def save_data_as_json(data: Union[dict, list], collection_name: str, file_name: 
 
 
 if __name__ == "__main__":
+    pass
     # print(list_fruits(3))
     # NOTE: Date 2023-05-30 It returned ['apple', 'banana', 'orange']
-    user_model = UserModel(
-        user_token="user_token",
-        nickname="nickname",
-        email="email@email.com",
-        password="password",
-    )
-    created_user = create_user(user_model)
-    print(created_user)
-    save_data_as_json(
-        data=created_user,
-        collection_name="users",
-        file_name=f"user_{created_user['user_token']}",
-    )
+    # user_model = UserModel(
+    #     user_token="user_token",
+    #     nickname="nickname",
+    #     email="email@email.com",
+    #     password="password",
+    # )
+    # created_user = create_user(user_model)
+    # print(created_user)
+    # save_data_as_json(
+    #     data=created_user,
+    #     collection_name="users",
+    #     file_name=f"user_{created_user['email']}",
+    # )
     # NOTE: DATE 2023-05-30 It returned {'user_token': 'user_token', 'nickname': 'nickname', 'email': 'email@email.com', 'password': '5f4dcc3b5aa765d61d8327deb882cf99'}
+    print(auth_user_with_email_and_password("email", "password"))
