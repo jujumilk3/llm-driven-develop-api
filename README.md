@@ -30,7 +30,8 @@ Code Repository for Researching the Concept of "Future Programming" Discussed in
 3. Run api
 
     ```shell
-    % uvicorn app.main:app --reload
+    % uvicorn app.main:app --reload  --loop asyncio
+    # --loop asyncio is required for marvin
     ```
 
 ## Packages

@@ -9,7 +9,6 @@ from app.core.config import configs
 
 
 class UserModel(BaseModel):
-    user_token: str = Field(..., example="user_token")
     nickname: str = Field(..., example="nickname")
     email: str = Field(..., example="email")
     password: str = Field(..., example="password")
@@ -24,8 +23,23 @@ def list_fruits(n: int) -> list[str]:
 def create_user(user_model: UserModel) -> dict[str, str]:
     f"""
     1. The data is {user_model.dict()}
-    2. Change Password with md5.
-    3. Json type.
+    2. Add password md5 hashed .
+    3. Add user_token created uuid4.
+    4. Add created_at with current datetime as UTC.
+    5. Add nickname.
+    6. return as Json type.
+    """
+
+
+@ai_fn
+def create_post(user_email: str, title: str, content: str) -> dict[str, str]:
+    f"""
+    1. Create post schema as json with user_email, title, content.
+    2. The user_email is {user_email}.
+    3. The title is {title}.
+    4. The content is {content}.
+    5. Add created_at with current datetime as UTC.
+    6. return as Json type.
     """
 
 
@@ -86,6 +100,7 @@ if __name__ == "__main__":
     #     email="email@email.com",
     #     password="password",
     # )
+
     # created_user = create_user(user_model)
     # print(created_user)
     # save_data_as_json(
@@ -94,4 +109,27 @@ if __name__ == "__main__":
     #     file_name=f"user_{created_user['email']}",
     # )
     # NOTE: DATE 2023-05-30 It returned {'user_token': 'user_token', 'nickname': 'nickname', 'email': 'email@email.com', 'password': '5f4dcc3b5aa765d61d8327deb882cf99'}
-    print(auth_user_with_email_and_password("email", "password"))
+    # print(auth_user_with_email_and_password("email", "password"))
+
+    # created_post = create_post(user_email="email@email.com", title="title", content="content")
+    # # string to dict
+    # created_post_as_json = json.loads(created_post)
+    # print(created_post_as_json)
+    # print(type(created_post_as_json))
+    # save_data_as_json(
+    #     data=created_post_as_json,
+    #     collection_name="posts",
+    #     file_name=f"post_by_{created_post_as_json['user_email']}_{created_post_as_json['created_at']}",
+    # )
+    # NOTE: DATE 2023-05-31 It returned {"user_token": "user_token", "title": "title", "content": "content", "created_at": "2023-05-31T14:18:00Z"}
+
+    created_post = create_post(user_email="email@email.com", title="this is title", content="this is content")
+    # string to dict
+    created_post_as_json = json.loads(created_post)
+    print(created_post_as_json)
+    print(type(created_post_as_json))
+    save_data_as_json(
+        data=created_post_as_json,
+        collection_name="posts",
+        file_name=f"post_by_{created_post_as_json['user_email']}_{created_post_as_json['created_at']}",
+    )
