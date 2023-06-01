@@ -53,10 +53,10 @@ def auth_user_with_email_and_password(email: str, password: str) -> dict[str, st
             break
     else:
         raise Exception("User not found.")
-    print(found_user_file)
+    found_user_data = None
     with open(f"{configs.COLLECTIONS_DIR}/users/{found_user_file}", "r") as f:
-        user_collections = json.loads(f.read())
-
+        found_user_data = json.loads(f.read())
+    print(found_user_data)
     """
     It can't decode password.
     NOTE: Tried prompts
@@ -67,14 +67,16 @@ def auth_user_with_email_and_password(email: str, password: str) -> dict[str, st
     """
 
     # @ai_fn
-    def check_password(inner_password: str):
+    def check_password(inner_password: str) -> bool:
         f"""
-        1. decode {user_collections['password']}. This is md5.
-        2. compare with {inner_password}
-        2. give me True if password is correct.
-        3. give me False if password is incorrect.
+        1. Encode {inner_password} as md5.
+        2. 1's result is A
+        3. B is {found_user_data['password']}
+        4. compare A and B.
+        5. give me bool type true if password is correct.
+        6. give me bool type false if password is incorrect.
         """
-        # Just return True for now. Because it can't decode password.
+        # Just return True for now. Because it can't compare password yet.
         return True
 
     return check_password(password)
@@ -123,13 +125,13 @@ if __name__ == "__main__":
     # )
     # NOTE: DATE 2023-05-31 It returned {"user_token": "user_token", "title": "title", "content": "content", "created_at": "2023-05-31T14:18:00Z"}
 
-    created_post = create_post(user_email="email@email.com", title="this is title", content="this is content")
-    # string to dict
-    created_post_as_json = json.loads(created_post)
-    print(created_post_as_json)
-    print(type(created_post_as_json))
-    save_data_as_json(
-        data=created_post_as_json,
-        collection_name="posts",
-        file_name=f"post_by_{created_post_as_json['user_email']}_{created_post_as_json['created_at']}",
-    )
+    # created_post = create_post(user_email="email@email.com", title="this is title", content="this is content")
+    # # string to dict
+    # created_post_as_json = json.loads(created_post)
+    # print(created_post_as_json)
+    # print(type(created_post_as_json))
+    # save_data_as_json(
+    #     data=created_post_as_json,
+    #     collection_name="posts",
+    #     file_name=f"post_by_{created_post_as_json['user_email']}_{created_post_as_json['created_at']}",
+    # )
